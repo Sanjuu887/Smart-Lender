@@ -1,3 +1,85 @@
 {% extends "base.html" %}
-{% block title %}Home - Smart Lender{% endblock %}
-{% block content %}{% endblock %}
+{% block title %}Smart Lender | Home{% endblock %}
+{% block content %}
+<section class="hero-section">
+	<div class="container py-5">
+		<div class="row align-items-center g-5 py-lg-5">
+			<div class="col-lg-6">
+				<span class="badge rounded-pill text-bg-light text-primary-emphasis px-3 py-2 mb-3">AI-Powered Loan Screening</span>
+				<h1 class="display-4 fw-bold text-white mb-4">Make loan decisions faster with a professional banking workflow.</h1>
+				<p class="lead text-white-75 mb-4">
+					Smart Lender uses a trained machine learning model to assess loan applications with clean, reliable, and production-ready predictions.
+				</p>
+				<div class="d-flex flex-wrap gap-3">
+					<a class="btn btn-light btn-lg px-4" href="{{ url_for('predict_form') }}">Predict Loan</a>
+					<a class="btn btn-outline-light btn-lg px-4" href="#overview">Learn More</a>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="hero-card card border-0 shadow-lg">
+					<div class="card-body p-4 p-md-5">
+						<div class="d-flex align-items-center mb-4">
+							<div class="icon-badge me-3">$</div>
+							<div>
+								<h2 class="h4 mb-1">Loan Approval Intelligence</h2>
+								<p class="mb-0 text-muted">Built for fast screening and a polished GitHub portfolio.</p>
+							</div>
+						</div>
+						<div class="row g-3 stats-grid">
+							<div class="col-6">
+								<div class="stat-card">
+									<span class="stat-value">20</span>
+									<span class="stat-label">Model Features</span>
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="stat-card">
+									<span class="stat-value">Fast</span>
+									<span class="stat-label">Prediction Flow</span>
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="stat-card">
+									<span class="stat-value">Bootstrap 5</span>
+									<span class="stat-label">Frontend Stack</span>
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="stat-card">
+									<span class="stat-value">Flask</span>
+									<span class="stat-label">Backend</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="overview" class="py-5 bg-light">
+	<div class="container py-3">
+		<div class="row g-4">
+			<div class="col-md-4">
+				<div class="info-card h-100">
+					<h3 class="h5">Clean Input Flow</h3>
+					<p class="mb-0">Users submit structured loan details through a responsive form designed for quick review.</p>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="info-card h-100">
+					<h3 class="h5">Model-Driven Output</h3>
+					<p class="mb-0">Predictions are generated from the trained artifact set already saved in the project.</p>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="info-card h-100">
+					<h3 class="h5">Professional UI</h3>
+					<p class="mb-0">A banking-style visual system keeps the experience polished for GitHub review.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

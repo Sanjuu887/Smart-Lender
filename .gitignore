@@ -16,4 +16,7 @@ env/
 Thumbs.db
 
 # Model artifacts
-*.pkl
+models/*.pkl
+
+# Environment files
+.env
