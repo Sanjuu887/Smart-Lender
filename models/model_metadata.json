@@ -1,0 +1,33 @@
+{
+    "Best Model Name": "Logistic Regression",
+    "Train Accuracy": 0.8187,
+    "Test Accuracy": 0.7886,
+    "Precision": 0.7596,
+    "Recall": 0.9875,
+    "F1 Score": 0.8587,
+    "ROC-AUC Score": 0.7497,
+    "Total Features": 20,
+    "Feature Names": [
+        "ApplicantIncome",
+        "CoapplicantIncome",
+        "LoanAmount",
+        "Loan_Amount_Term",
+        "Credit_History",
+        "Gender_Female",
+        "Gender_Male",
+        "Married_No",
+        "Married_Yes",
+        "Dependents_0",
+        "Dependents_1",
+        "Dependents_2",
+        "Dependents_3+",
+        "Education_Graduate",
+        "Education_Not Graduate",
+        "Self_Employed_No",
+        "Self_Employed_Yes",
+        "Property_Area_Rural",
+        "Property_Area_Semiurban",
+        "Property_Area_Urban"
+    ],
+    "Timestamp": "2026-07-02T15:18:56"
+}
