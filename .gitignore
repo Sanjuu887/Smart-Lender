@@ -15,8 +15,5 @@ env/
 .DS_Store
 Thumbs.db
 
-# Model artifacts
-models/*.pkl
-
 # Environment files
 .env
