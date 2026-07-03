@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Smart Lender | Contact{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/info.css') }}">
+{% endblock %}
+{% block content %}
+<div class="info-page">
+  <section class="container-fluid px-3 px-lg-4 py-4 py-lg-5">
+    <div class="info-hero">
+      <span class="info-chip"><i class="fa-solid fa-envelope me-2"></i>Contact Smart Lender</span>
+      <h1>Connect with the developer.</h1>
+      <p>This page shares the main project contact details for interviews, portfolio review, and technical discussion.</p>
+      <div class="info-hero-actions">
+        <a class="btn btn-primary" href="mailto:info@smartlender.local"><i class="fa-solid fa-paper-plane me-2"></i>Email</a>
+        <a class="btn btn-outline-light" href="{{ url_for('about_page') }}"><i class="fa-solid fa-circle-info me-2"></i>About</a>
+      </div>
+      <div class="info-hero-grid">
+        <div class="hero-metric"><span>Page Purpose</span><strong>Portfolio and project contact</strong></div>
+        <div class="hero-metric"><span>Style</span><strong>Premium banking presentation</strong></div>
+        <div class="hero-metric"><span>Availability</span><strong>Easy to share in interviews</strong></div>
+      </div>
+    </div>
+
+    <div class="info-section mt-4">
+      <span class="section-label"><i class="fa-solid fa-address-card me-2"></i>Contact Details</span>
+      <h2 class="section-title">Project contact information</h2>
+      <div class="info-grid">
+        <article class="info-card">
+          <div class="icon-box"><i class="fa-solid fa-user"></i></div>
+          <h3>Developer</h3>
+          <p>Sanju</p>
+        </article>
+        <article class="info-card">
+          <div class="icon-box"><i class="fa-brands fa-github"></i></div>
+          <h3>GitHub</h3>
+          <p><a href="https://github.com/Sanjuu887/Smart-Lender.git" target="_blank" rel="noreferrer">github.com/Sanjuu887/Smart-Lender</a></p>
+        </article>
+        <article class="info-card">
+          <div class="icon-box"><i class="fa-brands fa-linkedin"></i></div>
+          <h3>LinkedIn</h3>
+          <p><a href="https://www.linkedin.com" target="_blank" rel="noreferrer">LinkedIn profile</a></p>
+        </article>
+        <article class="info-card">
+          <div class="icon-box"><i class="fa-solid fa-envelope"></i></div>
+          <h3>Email</h3>
+          <p><a href="mailto:info@smartlender.local">info@smartlender.local</a></p>
+        </article>
+        <article class="info-card full">
+          <div class="icon-box"><i class="fa-solid fa-code-branch"></i></div>
+          <h3>Project Version</h3>
+          <p>v1.0.0</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="info-section mt-4">
+      <span class="section-label"><i class="fa-solid fa-shield-heart me-2"></i>Professional Notes</span>
+      <h2 class="section-title">How to use these contacts</h2>
+      <div class="info-grid">
+        <article class="info-card full">
+          <div class="icon-box"><i class="fa-solid fa-lightbulb"></i></div>
+          <h3>For interviews and portfolio reviews</h3>
+          <p>Use the GitHub repository to review the implementation, the LinkedIn profile to connect professionally, and the email address for direct project communication.</p>
+        </article>
+      </div>
+      <div class="info-actions">
+        <a class="btn btn-primary" href="https://github.com/Sanjuu887/Smart-Lender.git" target="_blank" rel="noreferrer"><i class="fa-brands fa-github me-2"></i>Open GitHub</a>
+        <a class="btn btn-outline-primary" href="{{ url_for('predict_form') }}"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Predict Loan</a>
+        <a class="btn btn-outline-primary" href="{{ url_for('index') }}"><i class="fa-solid fa-house me-2"></i>Back Home</a>
+      </div>
+    </div>
+
+    <div class="info-footer mt-4">
+      <div class="footer-shell">
+        <div class="footer-brand">
+          <div class="footer-logo"><i class="fa-solid fa-building-columns"></i></div>
+          <div>
+            <strong>Smart Lender</strong>
+            <p>AI Powered Loan Approval System</p>
+          </div>
+        </div>
+        <div class="footer-meta">
+          <span>Project Version</span>
+          <strong>v1.0.0</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

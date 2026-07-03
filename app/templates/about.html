@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %}Smart Lender | About{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/info.css') }}">
+{% endblock %}
+{% block content %}
+<div class="info-page">
+  <section class="container-fluid px-3 px-lg-4 py-4 py-lg-5">
+    <div class="info-hero">
+      <span class="info-chip"><i class="fa-solid fa-circle-info me-2"></i>About Smart Lender</span>
+      <h1>Smart Lender is a loan approval assistance tool.</h1>
+      <p>It helps users review loan application details and estimate loan eligibility with the existing machine learning model. The result is an aid for screening and review, not a final banking decision.</p>
+      <div class="info-hero-actions">
+        <a class="btn btn-primary" href="{{ url_for('predict_form') }}"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Predict Loan</a>
+        <a class="btn btn-outline-light" href="{{ url_for('contact_page') }}"><i class="fa-solid fa-envelope me-2"></i>Contact</a>
+      </div>
+      <div class="info-hero-grid">
+        <div class="hero-metric"><span>Project Type</span><strong>AI-assisted loan screening</strong></div>
+        <div class="hero-metric"><span>Design Goal</span><strong>Professional banking workflow</strong></div>
+        <div class="hero-metric"><span>Outcome</span><strong>Screening support for applicants</strong></div>
+      </div>
+    </div>
+
+    <div class="info-section mt-4">
+      <span class="section-label"><i class="fa-solid fa-building-columns me-2"></i>Overview</span>
+      <h2 class="section-title">What is Smart Lender?</h2>
+      <div class="info-grid">
+        <article class="info-card full">
+          <div class="icon-box"><i class="fa-solid fa-building-columns"></i></div>
+          <h3>What is Smart Lender?</h3>
+          <p>Smart Lender is a Flask-based loan approval prediction application. Users enter applicant and financial details, and the app returns a machine learning prediction that helps estimate whether a loan may be approved.</p>
+        </article>
+        <article class="info-card">
+          <div class="icon-box"><i class="fa-solid fa-bullseye"></i></div>
+          <h3>Problem Statement</h3>
+          <p>Loan applications take time to review, and applicants often want a quick indication of whether their profile is likely to be accepted. Smart Lender addresses that need by presenting a clear screening result in a banking-style interface.</p>
+        </article>
+        <article class="info-card">
+          <div class="icon-box"><i class="fa-solid fa-hand-holding-heart"></i></div>
+          <h3>How Smart Lender helps users</h3>
+          <p>It gives applicants a fast way to review their loan profile, understand the fields that matter, and prepare for a more informed discussion with a lender.</p>
+        </article>
+        <article class="info-card">
+          <div class="icon-box"><i class="fa-solid fa-brain"></i></div>
+          <h3>How Machine Learning is used</h3>
+          <p>The app sends the submitted values to the already trained model pipeline and displays the returned prediction. The model is used for screening assistance only.</p>
+        </article>
+        <article class="info-card">
+          <div class="icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+          <h3>Important note</h3>
+          <p>This is an assistance tool, not a final banking decision. The final approval always belongs to the lender or financial institution.</p>
+        </article>
+        <article class="info-card">
+          <div class="icon-box"><i class="fa-solid fa-list-check"></i></div>
+          <h3>Project Objectives</h3>
+          <ul class="bullet-list">
+            <li>Provide a clean loan screening experience.</li>
+            <li>Present a simple and understandable result flow.</li>
+            <li>Keep the user experience professional and responsive.</li>
+            <li>Support a clear demo for interviews and portfolios.</li>
+          </ul>
+        </article>
+        <article class="info-card full">
+          <div class="icon-box"><i class="fa-solid fa-star"></i></div>
+          <h3>Project Features</h3>
+          <ul class="bullet-list">
+            <li>Loan prediction form with validation.</li>
+            <li>Result dashboard with summary cards.</li>
+            <li>Downloadable PDF report.</li>
+            <li>Responsive design for desktop and mobile devices.</li>
+            <li>Friendly error handling and premium visuals.</li>
+          </ul>
+        </article>
+        <article class="info-card full">
+          <div class="icon-box"><i class="fa-solid fa-thumbs-up"></i></div>
+          <h3>Benefits</h3>
+          <ul class="bullet-list">
+            <li>Speeds up first-level screening.</li>
+            <li>Helps users review their loan profile before applying.</li>
+            <li>Makes the project suitable for a real portfolio presentation.</li>
+            <li>Keeps the interface clear, polished, and easy to use.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+    <div class="info-section mt-4" id="faq">
+      <span class="section-label"><i class="fa-solid fa-question-circle me-2"></i>FAQ</span>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="accordion faq-accordion mt-4" id="aboutFaq">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqOneHeading">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne" aria-expanded="true" aria-controls="faqOne">What is Smart Lender?</button>
+          </h2>
+          <div id="faqOne" class="accordion-collapse collapse show" aria-labelledby="faqOneHeading" data-bs-parent="#aboutFaq">
+            <div class="accordion-body">Smart Lender is a loan approval assistance tool that uses the existing machine learning model to help screen applications.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqTwoHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo" aria-expanded="false" aria-controls="faqTwo">How does prediction work?</button>
+          </h2>
+          <div id="faqTwo" class="accordion-collapse collapse" aria-labelledby="faqTwoHeading" data-bs-parent="#aboutFaq">
+            <div class="accordion-body">The form submits applicant details to the existing backend flow, which converts them into model inputs and returns a prediction.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqThreeHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqThree" aria-expanded="false" aria-controls="faqThree">Does this guarantee bank approval?</button>
+          </h2>
+          <div id="faqThree" class="accordion-collapse collapse" aria-labelledby="faqThreeHeading" data-bs-parent="#aboutFaq">
+            <div class="accordion-body">No. The app only provides an estimated screening result. Final approval always depends on the bank or lender.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqFourHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqFour" aria-expanded="false" aria-controls="faqFour">Is my information stored?</button>
+          </h2>
+          <div id="faqFour" class="accordion-collapse collapse" aria-labelledby="faqFourHeading" data-bs-parent="#aboutFaq">
+            <div class="accordion-body">The application stores the submitted details only for the current report flow in the browser session. It is not presented as a user account system.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqFiveHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqFive" aria-expanded="false" aria-controls="faqFive">Can I download my report?</button>
+          </h2>
+          <div id="faqFive" class="accordion-collapse collapse" aria-labelledby="faqFiveHeading" data-bs-parent="#aboutFaq">
+            <div class="accordion-body">Yes. The result page includes a professional PDF download option that uses the submitted application details.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqSixHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqSix" aria-expanded="false" aria-controls="faqSix">Can I use this for real banking decisions?</button>
+          </h2>
+          <div id="faqSix" class="accordion-collapse collapse" aria-labelledby="faqSixHeading" data-bs-parent="#aboutFaq">
+            <div class="accordion-body">No. It is a demonstration and screening tool, not a replacement for official lending judgment.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-footer mt-4">
+      <div class="footer-shell">
+        <div class="footer-brand">
+          <div class="footer-logo"><i class="fa-solid fa-building-columns"></i></div>
+          <div>
+            <strong>Smart Lender</strong>
+            <p>AI Powered Loan Approval System</p>
+          </div>
+        </div>
+        <div class="footer-meta">
+          <span>Project Version</span>
+          <strong>v1.0.0</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

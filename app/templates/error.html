@@ -1,23 +1,29 @@
 {% extends "base.html" %}
 {% block title %}Smart Lender | Error{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
+{% endblock %}
 {% block content %}
-<section class="error-section py-5">
-	<div class="container py-5">
-		<div class="row justify-content-center">
-			<div class="col-lg-7 col-xl-6">
-				<div class="error-card card border-0 shadow-lg text-center">
-					<div class="card-body p-4 p-md-5">
-						<div class="error-badge mb-3">!</div>
-						<h1 class="h2 fw-bold mb-3">Something went wrong</h1>
-						<p class="text-muted mb-0">{{ error_message or "We couldn't complete your request. Please try again." }}</p>
-						<div class="d-flex flex-column flex-sm-row gap-3 justify-content-center mt-5">
-							<a href="{{ url_for('index') }}" class="btn btn-primary btn-lg px-4">Home</a>
-							<a href="{{ url_for('predict_form') }}" class="btn btn-outline-primary btn-lg px-4">Back</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+<div class="result-page rejected-page">
+    <section class="result-hero">
+        <div class="container-fluid px-3 px-lg-4 py-4 py-lg-5">
+            <div class="result-banner rejected">
+                <div class="banner-copy">
+                    <span class="banner-chip"><i class="fa-solid fa-triangle-exclamation me-2"></i>Request Error</span>
+                    <h1><i class="fa-solid fa-circle-exclamation me-2"></i>Something went wrong</h1>
+                    <p class="banner-subtitle">{{ error_message or "We couldn't complete your request. Please try again." }}</p>
+                </div>
+                <div class="banner-meta">
+                    <div class="meta-pill"><span>Status</span><strong>Error</strong></div>
+                    <div class="meta-pill"><span>Action</span><strong>Review and retry</strong></div>
+                </div>
+            </div>
+
+            <div class="result-actions">
+                <a class="btn btn-primary action-btn" href="{{ url_for('index') }}"><i class="fa-solid fa-house me-2"></i>Home</a>
+                <a class="btn btn-outline-light action-btn" href="{{ url_for('predict_form') }}"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Back</a>
+            </div>
+        </div>
+    </section>
+</div>
 {% endblock %}

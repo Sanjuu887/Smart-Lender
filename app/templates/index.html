@@ -1,85 +1,336 @@
 {% extends "base.html" %}
-{% block title %}Smart Lender | Home{% endblock %}
-{% block content %}
-<section class="hero-section">
-	<div class="container py-5">
-		<div class="row align-items-center g-5 py-lg-5">
-			<div class="col-lg-6">
-				<span class="badge rounded-pill text-bg-light text-primary-emphasis px-3 py-2 mb-3">AI-Powered Loan Screening</span>
-				<h1 class="display-4 fw-bold text-white mb-4">Make loan decisions faster with a professional banking workflow.</h1>
-				<p class="lead text-white-75 mb-4">
-					Smart Lender uses a trained machine learning model to assess loan applications with clean, reliable, and production-ready predictions.
-				</p>
-				<div class="d-flex flex-wrap gap-3">
-					<a class="btn btn-light btn-lg px-4" href="{{ url_for('predict_form') }}">Predict Loan</a>
-					<a class="btn btn-outline-light btn-lg px-4" href="#overview">Learn More</a>
-				</div>
-			</div>
-			<div class="col-lg-6">
-				<div class="hero-card card border-0 shadow-lg">
-					<div class="card-body p-4 p-md-5">
-						<div class="d-flex align-items-center mb-4">
-							<div class="icon-badge me-3">$</div>
-							<div>
-								<h2 class="h4 mb-1">Loan Approval Intelligence</h2>
-								<p class="mb-0 text-muted">Built for fast screening and a polished GitHub portfolio.</p>
-							</div>
-						</div>
-						<div class="row g-3 stats-grid">
-							<div class="col-6">
-								<div class="stat-card">
-									<span class="stat-value">20</span>
-									<span class="stat-label">Model Features</span>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="stat-card">
-									<span class="stat-value">Fast</span>
-									<span class="stat-label">Prediction Flow</span>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="stat-card">
-									<span class="stat-value">Bootstrap 5</span>
-									<span class="stat-label">Frontend Stack</span>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="stat-card">
-									<span class="stat-value">Flask</span>
-									<span class="stat-label">Backend</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
 
-<section id="overview" class="py-5 bg-light">
-	<div class="container py-3">
-		<div class="row g-4">
-			<div class="col-md-4">
-				<div class="info-card h-100">
-					<h3 class="h5">Clean Input Flow</h3>
-					<p class="mb-0">Users submit structured loan details through a responsive form designed for quick review.</p>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="info-card h-100">
-					<h3 class="h5">Model-Driven Output</h3>
-					<p class="mb-0">Predictions are generated from the trained artifact set already saved in the project.</p>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="info-card h-100">
-					<h3 class="h5">Professional UI</h3>
-					<p class="mb-0">A banking-style visual system keeps the experience polished for GitHub review.</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+{% block title %}Smart Lender | Home{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark home-navbar sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-3 fw-bold" href="#home">
+      <span class="brand-badge"><i class="fa-solid fa-building-columns"></i></span>
+      <span>Smart Lender</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#homeNav" aria-controls="homeNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="homeNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+        <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('predict_form') }}">Predict Loan</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('about_page') }}">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('contact_page') }}">Contact</a></li>
+        <li class="nav-item ms-lg-2"><a class="btn btn-primary nav-cta" href="{{ url_for('predict_form') }}"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Predict Loan</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div id="home" class="home-page">
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center g-5 hero-grid">
+        <div class="col-lg-6">
+          <div class="hero-copy">
+            <span class="eyebrow-chip"><i class="fa-solid fa-shield-heart me-2"></i>AI Loan Approval System</span>
+            <h1>AI Powered Loan Approval Prediction</h1>
+            <p class="hero-text">Predict loan eligibility in seconds using Machine Learning. Smart Lender helps users estimate whether a loan application is likely to be approved based on applicant information.</p>
+            <div class="hero-actions d-flex flex-wrap gap-3">
+              <a class="btn btn-primary btn-lg hero-btn" href="{{ url_for('predict_form') }}">Predict Loan</a>
+              <a class="btn btn-outline-light btn-lg hero-btn secondary-btn" href="#understanding">Learn More</a>
+            </div>
+            <div class="hero-trust mt-4">
+              <div class="trust-pill"><i class="fa-solid fa-lock me-2"></i>Secure flow</div>
+              <div class="trust-pill"><i class="fa-solid fa-bolt me-2"></i>Instant result view</div>
+              <div class="trust-pill"><i class="fa-solid fa-circle-check me-2"></i>Clean banking layout</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="dashboard-illustration" aria-label="Professional banking dashboard illustration">
+            <div class="glass-panel panel-shell">
+              <div class="panel-topbar">
+                <div>
+                  <span class="panel-label">Loan Review Desk</span>
+                  <h2>Smart Lender</h2>
+                </div>
+                <div class="panel-status"><i class="fa-solid fa-shield-halved me-2"></i>Secure</div>
+              </div>
+              <div class="panel-grid">
+                <div class="panel-card panel-card-wide">
+                  <div class="panel-card-head">
+                    <i class="fa-solid fa-user-check"></i>
+                    <span>Applicant Details</span>
+                  </div>
+                  <div class="mini-flow">
+                    <div><strong>Form data</strong><span>Collected from the user</span></div>
+                    <div><strong>Validation</strong><span>Checked before scoring</span></div>
+                  </div>
+                </div>
+                <div class="panel-card">
+                  <div class="panel-card-head">
+                    <i class="fa-solid fa-database"></i>
+                    <span>Data Check</span>
+                  </div>
+                  <p>Input values are prepared for the model.</p>
+                </div>
+                <div class="panel-card">
+                  <div class="panel-card-head">
+                    <i class="fa-solid fa-brain"></i>
+                    <span>Machine Learning</span>
+                  </div>
+                  <p>The saved model evaluates the request.</p>
+                </div>
+                <div class="panel-card panel-card-wide result-card">
+                  <div class="result-badge"><i class="fa-solid fa-file-shield me-2"></i>Decision Summary</div>
+                  <h3>Clear outcome screen</h3>
+                  <p>The result page presents the prediction in a simple format that feels familiar to banking users.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block section-muted" id="why-smart-lender">
+    <div class="container">
+      <div class="section-heading text-center">
+        <span>Why Choose Smart Lender</span>
+        <h2>Built for a premium banking experience</h2>
+      </div>
+      <div class="row g-4 mt-1">
+        <div class="col-md-6 col-xl-4">
+          <article class="info-card premium-card">
+            <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+            <h3>AI Prediction</h3>
+            <p>Uses a trained Machine Learning model to estimate loan eligibility.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="info-card premium-card">
+            <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
+            <h3>Fast Results</h3>
+            <p>Gives a prediction quickly after the form is submitted.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="info-card premium-card">
+            <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3>Secure</h3>
+            <p>Information is processed locally inside the Flask app.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="info-card premium-card">
+            <div class="card-icon"><i class="fa-solid fa-list-check"></i></div>
+            <h3>Easy to Use</h3>
+            <p>The steps are simple and clear for any user.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="info-card premium-card">
+            <div class="card-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <h3>Responsive</h3>
+            <p>Works well on desktop, tablet, and mobile screens.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="info-card premium-card">
+            <div class="card-icon"><i class="fa-solid fa-file-arrow-down"></i></div>
+            <h3>Professional Reports</h3>
+            <p>Shows results in a format that can be used for reporting.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block section-muted" id="understanding">
+    <div class="container">
+      <div class="section-heading text-center">
+        <span>What the Application Checks</span>
+        <h2>What the application checks</h2>
+      </div>
+      <div class="row g-4 mt-1">
+        <div class="col-md-6 col-xl-4">
+          <article class="info-card explanation-card">
+            <h3>Applicant Income</h3>
+            <p>Income matters because it helps show if the loan can be repaid on time.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="info-card explanation-card">
+            <h3>Loan Amount</h3>
+            <p>Loan amount matters because larger requests can be harder to repay.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="info-card explanation-card">
+            <h3>Credit History</h3>
+            <p>Credit history helps show how the person handled past loans.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="info-card explanation-card">
+            <h3>Employment</h3>
+            <p>Stable work can support a steady income and better repayment ability.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="info-card explanation-card">
+            <h3>Property Area</h3>
+            <p>Location is considered because it can affect loan risk in some cases.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="info-card explanation-card">
+            <h3>Dependents</h3>
+            <p>Dependents may affect how much money is available for repayment.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="features">
+    <div class="container">
+      <div class="section-heading text-center">
+        <span>Application Features</span>
+        <h2>Useful parts of the user experience</h2>
+      </div>
+      <div class="row g-4 mt-1">
+        <div class="col-sm-6 col-lg-3"><article class="info-card feature-tile"><i class="fa-solid fa-wand-magic-sparkles"></i><h3>Loan Prediction</h3></article></div>
+        <div class="col-sm-6 col-lg-3"><article class="info-card feature-tile"><i class="fa-solid fa-clock-rotate-left"></i><h3>Prediction History</h3></article></div>
+        <div class="col-sm-6 col-lg-3"><article class="info-card feature-tile"><i class="fa-solid fa-file-arrow-down"></i><h3>Download Report</h3></article></div>
+        <div class="col-sm-6 col-lg-3"><article class="info-card feature-tile"><i class="fa-solid fa-mobile-screen"></i><h3>Responsive Design</h3></article></div>
+        <div class="col-sm-6 col-lg-3"><article class="info-card feature-tile"><i class="fa-solid fa-square-check"></i><h3>Input Validation</h3></article></div>
+        <div class="col-sm-6 col-lg-3"><article class="info-card feature-tile"><i class="fa-solid fa-gauge-high"></i><h3>Real-Time Results</h3></article></div>
+        <div class="col-sm-6 col-lg-3"><article class="info-card feature-tile"><i class="fa-solid fa-file-circle-check"></i><h3>Decision Summary</h3></article></div>
+        <div class="col-sm-6 col-lg-3"><article class="info-card feature-tile"><i class="fa-solid fa-comments"></i><h3>Suggestions</h3></article></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block section-muted" id="faq">
+    <div class="container">
+      <div class="section-heading text-center">
+        <span>Frequently Asked Questions</span>
+        <h2>Simple answers</h2>
+      </div>
+      <div class="accordion faq-accordion mt-4" id="faqAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqOneHeading">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne" aria-expanded="true" aria-controls="faqOne">What is Smart Lender?</button>
+          </h2>
+          <div id="faqOne" class="accordion-collapse collapse show" aria-labelledby="faqOneHeading" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">Smart Lender is a Flask app that estimates loan eligibility with a machine learning model.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqTwoHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo" aria-expanded="false" aria-controls="faqTwo">How is the prediction generated?</button>
+          </h2>
+          <div id="faqTwo" class="accordion-collapse collapse" aria-labelledby="faqTwoHeading" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">The app sends the entered values to the existing model pipeline and shows the returned prediction.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqThreeHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqThree" aria-expanded="false" aria-controls="faqThree">Is this a final bank approval?</button>
+          </h2>
+          <div id="faqThree" class="accordion-collapse collapse" aria-labelledby="faqThreeHeading" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">No. It is only a prediction tool. The final decision belongs to the bank or lender.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqFourHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqFour" aria-expanded="false" aria-controls="faqFour">Is my information stored?</button>
+          </h2>
+          <div id="faqFour" class="accordion-collapse collapse" aria-labelledby="faqFourHeading" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">This page does not create a user profile. The form values are used for prediction and then the result is shown.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqFiveHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqFive" aria-expanded="false" aria-controls="faqFive">Can I download my report?</button>
+          </h2>
+          <div id="faqFive" class="accordion-collapse collapse" aria-labelledby="faqFiveHeading" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">If your result page includes a report download option, you can use it there. The home page itself does not create the report.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="contact">
+    <div class="container">
+      <div class="section-heading text-center">
+        <span>Contact</span>
+        <h2>Project links and details</h2>
+      </div>
+      <div class="row g-4 mt-1">
+        <div class="col-md-6 col-xl-3">
+          <article class="info-card contact-card">
+            <i class="fa-brands fa-github"></i>
+            <h3>GitHub</h3>
+            <a href="https://github.com/Sanjuu887/Smart-Lender.git" target="_blank" rel="noreferrer">Open repository</a>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <article class="info-card contact-card">
+            <i class="fa-brands fa-linkedin"></i>
+            <h3>LinkedIn</h3>
+            <a href="https://www.linkedin.com" target="_blank" rel="noreferrer">View profile</a>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <article class="info-card contact-card">
+            <i class="fa-solid fa-envelope"></i>
+            <h3>Email</h3>
+            <a href="mailto:info@smartlender.local">info@smartlender.local</a>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <article class="info-card contact-card">
+            <i class="fa-solid fa-code-branch"></i>
+            <h3>Project Version</h3>
+            <span>v1.0.0</span>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="home-footer">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-5">
+          <div class="footer-brand d-flex align-items-center gap-3">
+            <span class="brand-badge"><i class="fa-solid fa-building-columns"></i></span>
+            <div>
+              <strong>Smart Lender</strong>
+              <p>AI Powered Loan Approval System</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="footer-links">
+            <a href="https://github.com/Sanjuu887/Smart-Lender.git" target="_blank" rel="noreferrer"><i class="fa-brands fa-github me-2"></i>GitHub</a>
+            <a href="{{ url_for('predict_form') }}"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Predict Loan</a>
+          </div>
+        </div>
+        <div class="col-lg-3 text-lg-end">
+          <div class="footer-meta">
+            <span>Copyright</span>
+            <strong>© 2026 Smart Lender</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
 {% endblock %}
