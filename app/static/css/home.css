@@ -349,6 +349,7 @@ a {
     color: var(--sl-dark);
 }
 
+.result-card {
     background: linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(17, 29, 58, 0.96));
     color: #fff;
 }
@@ -431,7 +432,13 @@ a {
 
 .premium-card h3,
 .explanation-card h3,
-.feature-tile h3,
+.feature-tile h3 {
+    margin: 0.8rem 0 0.35rem;
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.timeline-step-number {
     height: 56px;
     flex: 0 0 auto;
     display: grid;

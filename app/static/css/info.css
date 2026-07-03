@@ -8,18 +8,8 @@
     --info-muted: #64748b;
     --info-surface: rgba(255, 255, 255, 0.78);
     --info-border: rgba(15, 23, 42, 0.08);
-    :root {
-        --info-primary: #2563eb;
-        --info-secondary: #1d4ed8;
-        --info-success: #22c55e;
-        --info-danger: #ef4444;
-        --info-bg: #f8fafc;
-        --info-dark: #0f172a;
-        --info-muted: #64748b;
-        --info-surface: rgba(255, 255, 255, 0.78);
-        --info-border: rgba(15, 23, 42, 0.08);
-        --info-shadow: 0 24px 72px rgba(15, 23, 42, 0.12);
-    }
+    --info-shadow: 0 24px 72px rgba(15, 23, 42, 0.12);
+}
 
     body.smart-body {
         margin: 0;
@@ -29,6 +19,11 @@
             radial-gradient(circle at top left, rgba(37, 99, 235, 0.14), transparent 24%),
             radial-gradient(circle at top right, rgba(34, 197, 94, 0.1), transparent 20%),
             linear-gradient(180deg, #eef4ff 0%, #f8fbff 40%, #ffffff 100%);
+    }
+
+    body.smart-body .app-shell {
+        display: grid;
+        grid-template-columns: 1fr;
     }
 
     body.smart-body .sidebar-panel,
@@ -43,6 +38,7 @@
 
     body.smart-body .content-panel {
         width: 100%;
+        max-width: 100%;
         min-width: 0;
     }
 

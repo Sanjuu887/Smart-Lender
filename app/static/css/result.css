@@ -21,6 +21,11 @@ body.smart-body {
         linear-gradient(180deg, #eef4ff 0%, #f8fbff 40%, #ffffff 100%);
 }
 
+body.smart-body .app-shell {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
 body.smart-body .sidebar-panel,
 body.smart-body .topbar,
 body.smart-body .smart-footer {
@@ -33,6 +38,7 @@ body.smart-body .content-area {
 
 body.smart-body .content-panel {
     width: 100%;
+    max-width: 100%;
     min-width: 0;
 }
 
