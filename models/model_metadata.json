@@ -1,11 +1,11 @@
 {
-    "Best Model Name": "Logistic Regression",
-    "Train Accuracy": 0.8187,
-    "Test Accuracy": 0.7886,
-    "Precision": 0.7596,
-    "Recall": 0.9875,
-    "F1 Score": 0.8587,
-    "ROC-AUC Score": 0.7497,
+    "Best Model Name": "XGBoost",
+    "Train Accuracy": 0.9878,
+    "Test Accuracy": 0.7561,
+    "Precision": 0.75,
+    "Recall": 0.9375,
+    "F1 Score": 0.8333,
+    "ROC-AUC Score": 0.7491,
     "Total Features": 20,
     "Feature Names": [
         "ApplicantIncome",
@@ -29,5 +29,5 @@
         "Property_Area_Semiurban",
         "Property_Area_Urban"
     ],
-    "Timestamp": "2026-07-02T15:47:05"
+    "Timestamp": "2026-07-03T15:31:21"
 }

@@ -28,27 +28,27 @@
               </div>
               <div class="row g-3">
                 <div class="col-md-6">
-                  <label class="form-label" for="ApplicantName">Applicant Name <span>*</span></label>
-                  <input type="text" class="form-control" id="ApplicantName" name="ApplicantName" placeholder="Full name" required>
+                  <label class="form-label" for="ApplicantName">Applicant Name <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Enter your full name."></i></label>
+                  <input type="text" class="form-control" id="ApplicantName" name="ApplicantName" placeholder="Example: John Doe" required>
                   <div class="invalid-feedback">Please enter your full name.</div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="EmailAddress">Email Address <span>*</span></label>
-                  <input type="email" class="form-control" id="EmailAddress" name="EmailAddress" placeholder="example@email.com" required>
+                  <label class="form-label" for="EmailAddress">Email Address <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Enter your primary contact email address."></i></label>
+                  <input type="email" class="form-control" id="EmailAddress" name="EmailAddress" placeholder="Example: john.doe@email.com" required>
                   <div class="invalid-feedback">Please enter a valid email.</div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="PhoneNumber">Phone Number</label>
-                  <input type="tel" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="10-digit mobile number" inputmode="tel">
-                  <div class="invalid-feedback">Please enter a valid phone number.</div>
+                  <label class="form-label" for="PhoneNumber">Phone Number <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Enter your 10-digit mobile number."></i></label>
+                  <input type="tel" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="Example: 9876543210" required inputmode="tel">
+                  <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="Age">Age</label>
-                  <input type="number" class="form-control" id="Age" name="Age" min="18" max="100" step="1" placeholder="Age">
-                  <div class="invalid-feedback">Please enter a valid age between 18 and 100.</div>
+                  <label class="form-label" for="Age">Age <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Applicant age (must be between 18 and 70)."></i></label>
+                  <input type="number" class="form-control" id="Age" name="Age" min="18" max="70" step="1" placeholder="Example: 35" required>
+                  <div class="invalid-feedback">Please enter a valid age between 18 and 70.</div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="Gender">Gender <span>*</span></label>
+                  <label class="form-label" for="Gender">Gender <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Select your gender."></i></label>
                   <select class="form-select" id="Gender" name="Gender" required>
                     <option value="" selected disabled>Select gender</option>
                     <option value="Male">Male</option>
@@ -57,7 +57,7 @@
                   <div class="invalid-feedback">Please select a gender.</div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="Married">Marital Status <span>*</span></label>
+                  <label class="form-label" for="Married">Marital Status <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Select your current marital status."></i></label>
                   <select class="form-select" id="Married" name="Married" required>
                     <option value="" selected disabled>Select marital status</option>
                     <option value="Yes">Married</option>
@@ -74,22 +74,22 @@
               </div>
               <div class="row g-3">
                 <div class="col-md-6">
-                  <label class="form-label" for="ApplicantIncome">Applicant Monthly Income (₹) <span>*</span></label>
-                  <input type="number" class="form-control" id="ApplicantIncome" name="ApplicantIncome" min="0" step="1" placeholder="Example: 50000" required>
-                  <div class="invalid-feedback">Income cannot be negative.</div>
+                  <label class="form-label" for="ApplicantIncome">Applicant Monthly Income (₹) <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Enter your monthly income before deductions."></i></label>
+                  <input type="number" class="form-control" id="ApplicantIncome" name="ApplicantIncome" min="1" step="1" placeholder="Example: 50000" required>
+                  <div class="invalid-feedback">Applicant income must be positive and greater than zero.</div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="CoapplicantIncome">Coapplicant Monthly Income (₹) <span>*</span></label>
+                  <label class="form-label" for="CoapplicantIncome">Co-applicant Monthly Income (₹) <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Enter the monthly income of your co-applicant. Enter 0 if not applicable."></i></label>
                   <input type="number" class="form-control" id="CoapplicantIncome" name="CoapplicantIncome" min="0" step="1" placeholder="Example: 0" required>
-                  <div class="invalid-feedback">Income cannot be negative.</div>
+                  <div class="invalid-feedback">Co-applicant income must be 0 or greater.</div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="LoanAmount">Loan Amount (₹ Thousand) <span>*</span></label>
-                  <input type="number" class="form-control" id="LoanAmount" name="LoanAmount" min="0.01" step="0.01" placeholder="Example: 150" required>
-                  <div class="invalid-feedback">Loan amount must be greater than zero.</div>
+                  <label class="form-label" for="LoanAmount">Loan Amount (₹ Thousands) <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Enter the requested loan amount in thousands. Example: 120 = ₹120,000."></i></label>
+                  <input type="number" class="form-control" id="LoanAmount" name="LoanAmount" min="1" step="1" placeholder="Example: 150" required>
+                  <div class="invalid-feedback">Loan amount must be positive.</div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="Loan_Amount_Term">Loan Term <span>*</span></label>
+                  <label class="form-label" for="Loan_Amount_Term">Loan Term <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Select the loan repayment period in months."></i></label>
                   <select class="form-select" id="Loan_Amount_Term" name="Loan_Amount_Term" required>
                     <option value="" selected disabled>Select repayment period</option>
                     <option value="36">36 Months</option>
@@ -104,7 +104,7 @@
                   <div class="invalid-feedback">Loan term is required.</div>
                 </div>
                 <div class="col-12">
-                  <label class="form-label d-block mb-2" for="Credit_History">Credit History <span>*</span></label>
+                  <label class="form-label d-block mb-2" for="Credit_History">Credit History <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Good: Previous loans repaid on time. Poor: Previous repayment issues."></i></label>
                   <div class="credit-grid compact-credit-grid">
                     <input class="btn-check" type="radio" name="Credit_History" id="CreditGood" value="1" required>
                     <label class="credit-card compact-credit-card" for="CreditGood">
@@ -128,7 +128,7 @@
               </div>
               <div class="row g-3">
                 <div class="col-md-6">
-                  <label class="form-label" for="Education">Education <span>*</span></label>
+                  <label class="form-label" for="Education">Education <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Highest education level completed."></i></label>
                   <select class="form-select" id="Education" name="Education" required>
                     <option value="" selected disabled>Select education</option>
                     <option value="Graduate">Graduate</option>
@@ -137,7 +137,7 @@
                   <div class="invalid-feedback">Please select education.</div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="Self_Employed">Self Employed <span>*</span></label>
+                  <label class="form-label" for="Self_Employed">Self Employed <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Select Yes if you are self-employed."></i></label>
                   <select class="form-select" id="Self_Employed" name="Self_Employed" required>
                     <option value="" selected disabled>Select employment status</option>
                     <option value="Yes">Yes</option>
@@ -146,7 +146,7 @@
                   <div class="invalid-feedback">Please select employment status.</div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="Dependents">Dependents <span>*</span></label>
+                  <label class="form-label" for="Dependents">Dependents <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Number of family members financially dependent on you."></i></label>
                   <select class="form-select" id="Dependents" name="Dependents" required>
                     <option value="" selected disabled>Select dependents</option>
                     <option value="0">0</option>
@@ -157,7 +157,7 @@
                   <div class="invalid-feedback">Please select dependents.</div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="Property_Area">Property Area <span>*</span></label>
+                  <label class="form-label" for="Property_Area">Property Area <span>*</span> <i class="fa-solid fa-circle-question label-tooltip" data-bs-toggle="tooltip" title="Location of the property associated with the loan."></i></label>
                   <select class="form-select" id="Property_Area" name="Property_Area" required>
                     <option value="" selected disabled>Select property area</option>
                     <option value="Urban">Urban</option>
@@ -175,6 +175,10 @@
                 <label class="form-check-label" for="confirmationCheck">I confirm the above information is correct.</label>
                 <div class="invalid-feedback">Please confirm the information before submitting.</div>
               </div>
+            </section>
+
+            <section class="form-section form-note compact-declaration" style="margin-top: 1rem; border-left: 3px solid var(--info-warning); background: rgba(245, 158, 11, 0.05);">
+              <p style="margin: 0; font-size: 0.85rem; color: var(--info-muted);"><i class="fa-solid fa-circle-info me-2 text-warning"></i> <b>Disclaimer:</b> The prediction is generated using a trained Machine Learning model. The reasons and suggestions displayed are general lending guidelines from submitted details. They are not the exact internal reasoning of the ML model. Final loan approval depends on the financial institution.</p>
             </section>
 
             <div class="action-row">

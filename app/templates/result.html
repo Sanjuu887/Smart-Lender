@@ -19,16 +19,16 @@
 					{% endif %}
 				</div>
 				<div class="banner-meta">
+					<div class="meta-pill"><span>Reference ID</span><strong>{{ reference_number }}</strong></div>
 					<div class="meta-pill"><span>Prediction</span><strong>{{ result }}</strong></div>
-					<div class="meta-pill"><span>Date</span><strong>{{ prediction_time.strftime('%d %b %Y') if prediction_time else 'N/A' }}</strong></div>
-					<div class="meta-pill"><span>Time</span><strong>{{ prediction_time.strftime('%I:%M %p') if prediction_time else 'N/A' }}</strong></div>
+					<div class="meta-pill"><span>Evaluation Time</span><strong>{{ prediction_time.strftime('%d %b %Y, %I:%M %p') if prediction_time else 'N/A' }}</strong></div>
 				</div>
 			</div>
 
 			<div class="result-actions">
-				<a class="btn btn-primary action-btn" href="{{ url_for('download_report') }}"><i class="fa-solid fa-file-arrow-down me-2"></i>Download PDF</a>
-				<a class="btn btn-outline-light action-btn" href="{{ url_for('predict_form') }}"><i class="fa-solid fa-rotate-right me-2"></i>Predict Again</a>
-				<a class="btn btn-outline-light action-btn secondary-outline" href="{{ url_for('index') }}"><i class="fa-solid fa-house me-2"></i>Back Home</a>
+				<a class="btn btn-primary action-btn" href="{{ url_for('download_report') }}"><i class="fa-solid fa-file-arrow-down me-2"></i>Download PDF Report</a>
+				<a class="btn btn-outline-custom action-btn" href="{{ url_for('predict_form') }}"><i class="fa-solid fa-rotate-right me-2"></i>Predict Again</a>
+				<a class="btn btn-outline-custom action-btn" href="{{ url_for('index') }}"><i class="fa-solid fa-house me-2"></i>Back Home</a>
 			</div>
 		</div>
 	</section>
@@ -59,9 +59,39 @@
 						<span class="card-label"><i class="fa-solid fa-coins me-2"></i>Financial Summary</span>
 					</div>
 					<div class="financial-grid">
-						<div class="finance-pill"><i class="fa-solid fa-wallet"></i><span>Applicant Income</span><strong>₹ {{ submitted_values.get('Applicant Income', '-') }}</strong></div>
-						<div class="finance-pill"><i class="fa-solid fa-people-group"></i><span>Coapplicant Income</span><strong>₹ {{ submitted_values.get('Coapplicant Income', '-') }}</strong></div>
-						<div class="finance-pill"><i class="fa-solid fa-indian-rupee-sign"></i><span>Loan Amount</span><strong>{{ submitted_values.get('Loan Amount', '-') }} Thousand</strong></div>
+						<div class="finance-pill">
+							<i class="fa-solid fa-wallet"></i>
+							<span>Applicant Income</span>
+							<strong>
+								{% if submitted_values.get('Applicant Income') %}
+									₹{{ "{:,.0f}".format(submitted_values.get('Applicant Income')|float) }}
+								{% else %}
+									-
+								{% endif %}
+							</strong>
+						</div>
+						<div class="finance-pill">
+							<i class="fa-solid fa-people-group"></i>
+							<span>Coapplicant Income</span>
+							<strong>
+								{% if submitted_values.get('Coapplicant Income') %}
+									₹{{ "{:,.0f}".format(submitted_values.get('Coapplicant Income')|float) }}
+								{% else %}
+									-
+								{% endif %}
+							</strong>
+						</div>
+						<div class="finance-pill">
+							<i class="fa-solid fa-indian-rupee-sign"></i>
+							<span>Loan Amount</span>
+							<strong>
+								{% if submitted_values.get('Loan Amount') %}
+									{{ submitted_values.get('Loan Amount') }} (₹{{ "{:,.0f}".format(submitted_values.get('Loan Amount')|float * 1000) }})
+								{% else %}
+									-
+								{% endif %}
+							</strong>
+						</div>
 						<div class="finance-pill"><i class="fa-solid fa-calendar-days"></i><span>Loan Term</span><strong>{{ submitted_values.get('Loan Term', '-') }} Months</strong></div>
 						<div class="finance-pill"><i class="fa-solid fa-shield-halved"></i><span>Credit History</span><strong>{{ submitted_values.get('Credit History', '-') }}</strong></div>
 					</div>
@@ -72,48 +102,42 @@
 						<span class="card-label"><i class="fa-solid fa-chart-line me-2"></i>Prediction Summary</span>
 					</div>
 					<div class="summary-stack">
-						<div class="summary-row"><span>Prediction</span><strong>{{ result }}</strong></div>
-						<div class="summary-row"><span>Prediction Time</span><strong>{{ prediction_time.strftime('%d %b %Y, %I:%M %p') if prediction_time else 'N/A' }}</strong></div>
+						<div class="summary-row"><span>Reference ID</span><strong>{{ reference_number }}</strong></div>
+						<div class="summary-row"><span>Prediction Outcome</span><strong>{{ result }}</strong></div>
+						<div class="summary-row"><span>Evaluation Date</span><strong>{{ prediction_time.strftime('%d %b %Y, %I:%M %p') if prediction_time else 'N/A' }}</strong></div>
 						<div class="summary-row"><span>Application Status</span><strong>{% if prediction == 1 %}Approved{% else %}Needs Review{% endif %}</strong></div>
 					</div>
 				</article>
 
 				<article class="info-card result-card guidance-card">
 					<div class="card-heading">
-						<span class="card-label"><i class="fa-solid fa-lightbulb me-2"></i>General Guidance</span>
+						<span class="card-label"><i class="fa-solid fa-lightbulb me-2"></i>Why this result?</span>
 					</div>
-					{% if prediction == 1 %}
-					<ul class="guidance-list approved-list">
-						<li>Good credit history</li>
-						<li>Stable income</li>
-						<li>Appropriate loan amount</li>
-						<li>Positive financial profile</li>
+					<ul class="guidance-list {% if prediction == 1 %}approved-list{% else %}rejected-list{% endif %}">
+						{% for reason in reasons %}
+						<li>{{ reason }}</li>
+						{% endfor %}
 					</ul>
-					{% else %}
-					<div class="improvement-head">Possible improvement areas</div>
-					<ul class="guidance-list rejected-list">
-						<li>Improve credit history</li>
-						<li>Reduce requested loan amount</li>
-						<li>Increase income</li>
-						<li>Apply with a co-applicant</li>
-					</ul>
-					{% endif %}
-					<div class="guidance-note">The above guidance is based on common lending practices and is not generated directly by the Machine Learning model.</div>
 				</article>
 
 				<article class="info-card result-card recommendations-card">
 					<div class="card-heading">
-						<span class="card-label"><i class="fa-solid fa-compass me-2"></i>Recommendations</span>
+						<span class="card-label"><i class="fa-solid fa-compass me-2"></i>Actionable Suggestions</span>
 					</div>
 					<div class="recommendation-grid">
-						{% for item in recommendations %}
+						{% for suggestion in suggestions %}
 						<div class="recommendation-item">
 							<i class="fa-solid fa-circle-check"></i>
-							<span>{{ item }}</span>
+							<span>{{ suggestion }}</span>
 						</div>
 						{% endfor %}
 					</div>
 				</article>
+			</div>
+
+			<div class="info-card result-card mt-4" style="border-left: 4px solid var(--info-warning); background: rgba(245, 158, 11, 0.05); padding: 1.5rem;">
+				<h4 style="font-size: 1rem; color: var(--text-heading); margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-info me-2 text-warning"></i> Disclaimer</h4>
+				<p style="margin: 0; font-size: 0.85rem; color: var(--text-paragraph); line-height: 1.5;">The prediction is generated using a trained Machine Learning model. The reasons and suggestions displayed are general lending guidelines from submitted details. They are not the exact internal reasoning of the ML model. Final loan approval depends on the financial institution.</p>
 			</div>
 		</div>
 	</section>

@@ -181,6 +181,20 @@ body.smart-body .content-panel {
     border-color: rgba(255, 255, 255, 0.22) !important;
 }
 
+.action-btn.btn-outline-custom {
+    border: 1px solid rgba(37, 99, 235, 0.35) !important;
+    color: var(--res-primary) !important;
+    background: rgba(37, 99, 235, 0.05) !important;
+}
+
+.action-btn.btn-outline-custom:hover,
+.action-btn.btn-outline-custom:focus {
+    color: #fff !important;
+    background: linear-gradient(135deg, var(--res-primary), var(--res-secondary)) !important;
+    border-color: transparent !important;
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.22) !important;
+}
+
 .result-content {
     padding: 1.25rem 0 0.5rem;
 }

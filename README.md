@@ -1,92 +1,110 @@
 # Smart Lender
 
-## Overview
+## Project Overview
 
-Smart Lender is an end-to-end machine learning loan approval project built with Flask and scikit-learn. It uses a trained classification model to predict whether a loan application should be approved based on applicant and loan details.
+Smart Lender is a web-based loan approval prediction assistant. It evaluates whether a loan application is likely to be approved or rejected based on criteria like applicant income, credit history, loan amount, and marital status. The system is designed to provide quick first-level screening assistance in a professional, responsive bank-style interface.
 
 ## Features
 
-- Clean Flask web interface
-- Professional banking-style responsive UI
-- Model-driven loan approval prediction
-- Input validation and graceful error handling
-- Optional scaler support for preprocessing consistency
-- Reusable predictor class with persisted artifacts
+- **Loan Approval Prediction:** Real-time calculation of loan eligibility using a machine learning model.
+- **Applicant Information & Financial Summary:** Dynamic form interface capture for marital status, dependents, education, income metrics, and requested loan terms.
+- **Rule-based Explanation:** Displays localized primary reasons explaining why the check approved or needs review.
+- **Downloadable PDF Report:** Generates a professional 2-page summary PDF showing the inputs, result, and suggestions.
+- **Responsive Layout:** A clean, optimized CSS interface designed to fit desktop, tablet, and mobile screens.
+
+## Machine Learning Model
+
+The application uses a trained tree-based model:
+- **Model Deployed:** XGBoost
+- **Training Accuracy:** 98.8%
+- **Testing Accuracy:** 75.6%
+- **Why XGBoost:** Bypasses linear bias assumptions that penalize high-income applicants, resulting in highly stable predictions and realistic loan approval logic compared to other classifiers.
+
+### Models Evaluated during Development
+- Logistic Regression (Rejects high-income outliers due to negative coefficient weight bias)
+- Decision Tree
+- Random Forest
+- Gradient Boosting
+- KNN
+- XGBoost (Selected)
 
 ## Project Structure
 
 ```text
 Smart-Lender/
 ├── app/
-│   ├── app.py
-│   ├── config.py
-│   └── predictor.py
+│   ├── app.py              # Main Flask application with API endpoints and PDF generator
+│   ├── config.py           # Configuration variables and security parameters
+│   ├── predictor.py        # Model loading, validation, and preprocessing pipeline
+│   ├── static/
+│   │   ├── css/            # CSS styling sheets for web screens
+│   │   └── js/             # Javascript validation and form interactions
+│   └── templates/          # HTML layout templates
 ├── data/
+│   └── loan_prediction.csv # Dataset used for training and cross-validation
 ├── models/
-├── notebooks/
-├── static/
-│   ├── css/
-│   └── js/
-├── templates/
-├── requirements.txt
-├── README.md
-└── .gitignore
+│   ├── best_model.pkl      # Saved XGBoost classifier model
+│   ├── scaler.pkl          # Saved StandardScaler configuration
+│   ├── feature_names.pkl   # List of 20 feature matrix inputs
+│   └── model_metadata.json # Metadata with model statistics and parameters
+├── requirements.txt        # Python package dependencies
+├── README.md               # Project documentation
+└── .gitignore              # Ignored file configurations
 ```
-
-## Machine Learning Models Used
-
-- Logistic Regression
-
-## Technologies Used
-
-- Python
-- Flask
-- Pandas
-- NumPy
-- scikit-learn
-- Joblib
-- Bootstrap 5
-
-## Dataset
-
-The project uses a loan prediction dataset stored in `data/`. It includes applicant information, loan details, and the target loan status used during model training.
 
 ## Installation
 
-1. Clone the repository.
-2. Create and activate a virtual environment.
-3. Install the dependencies:
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/Sanjuu887/Smart-Lender
+   cd Smart-Lender
+   ```
 
+2. Create a virtual environment and activate it:
+   ```bash
+   python -m venv .venv
+   # On Windows:
+   .\.venv\Scripts\activate
+   # On macOS/Linux:
+   source .venv/bin/activate
+   ```
+
+3. Install project dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## How to Run
+
+Start the Flask application:
 ```bash
-pip install -r requirements.txt
+python -m app.app
 ```
-
-## Run Locally
-
-```bash
-python app/app.py
-```
-
-Then open `http://127.0.0.1:5000` in your browser.
+Then visit `http://127.0.0.1:5000` in your web browser.
 
 ## Screenshots
 
-- Home page: placeholder
-- Prediction form: placeholder
-- Result page: placeholder
+*(Placeholder section - screenshots of components will be added post-deployment)*
+
+- **Home Dashboard:** Home layout for starting prediction runs.
+- **Predict Form:** Validated inputs showing user data capturing.
+- **Predict Result:** Dynamic success green card or warning warning card.
+
+## Technologies Used
+
+- **Backend:** Flask, Python
+- **Machine Learning:** XGBoost, scikit-learn, Pandas, NumPy, Joblib
+- **Frontend:** HTML5, CSS3, JavaScript, Bootstrap 5, FontAwesome
+- **PDF Export:** ReportLab
 
 ## Future Improvements
 
-- Add user authentication and request history
-- Extend model comparison and explainability
-- Add deployment configuration for cloud hosting
-- Add form analytics and monitoring
+- Add user authentication and record storage.
+- Support multi-model testing toggles inside a control panel.
+- Increase prediction feature counts (e.g. debt-to-income ratio, active credit accounts).
 
-## Author
+## Contact
 
-Sanju
-
-## License
-
-MIT License
-
+- **Email:** sanjaydharmireddi3@gmail.com
+- **LinkedIn:** [Sanjay Dharmireddi on LinkedIn](https://www.linkedin.com/in/sanjay-dharmireddi-33b648348/)
+- **GitHub Repository:** [Smart-Lender GitHub Repo](https://github.com/Sanjuu887/Smart-Lender)

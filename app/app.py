@@ -1,3 +1,4 @@
+import random
 from datetime import datetime
 from io import BytesIO
 from typing import Any
@@ -8,7 +9,7 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 from app.config import DEBUG, SECRET_KEY
 from app.predictor import SmartLenderPredictor
@@ -113,30 +114,96 @@ def _build_submission_summary(form_data: Any) -> dict[str, str]:
     }
 
 
-def _build_guidance(prediction_value: int) -> list[str]:
+def _format_currency(val) -> str:
+    try:
+        numeric_val = float(val)
+        return f"₹{int(numeric_val):,}"
+    except (ValueError, TypeError):
+        return str(val)
+
+
+def _format_loan_amount_val(val) -> str:
+    try:
+        numeric_val = float(val)
+        val_in_rs = int(numeric_val * 1000)
+        return f"{int(numeric_val) if numeric_val.is_integer() else numeric_val} (₹{val_in_rs:,})"
+    except (ValueError, TypeError):
+        return str(val)
+
+
+def _build_reasons(submitted_values: dict[str, str], prediction_value: int) -> list[str]:
+    try:
+        applicant_income = float(submitted_values.get("Applicant Income", 0) or 0)
+        coapplicant_income = float(submitted_values.get("Coapplicant Income", 0) or 0)
+        loan_amount = float(submitted_values.get("Loan Amount", 0) or 0)
+        loan_term = float(submitted_values.get("Loan Term", 0) or 0)
+        credit_history = submitted_values.get("Credit History", "Good")
+        dependents = submitted_values.get("Dependents", "0")
+        self_employed = submitted_values.get("Self Employment", "No").strip().lower()
+    except (ValueError, TypeError):
+        applicant_income = 0.0
+        coapplicant_income = 0.0
+        loan_amount = 0.0
+        loan_term = 0.0
+        credit_history = "Good"
+        dependents = "0"
+        self_employed = "no"
+
+    total_income = applicant_income + coapplicant_income
+    reasons = []
+
+    if prediction_value == 1:
+        if credit_history == "Good":
+            reasons.append("Good credit history")
+        if applicant_income >= 35000:
+            reasons.append("Stable monthly income")
+        if loan_amount <= 200:
+            reasons.append("Reasonable loan amount")
+        if coapplicant_income > 0:
+            reasons.append("Lower financial risk")
+        if loan_term <= 360:
+            reasons.append("Suitable repayment period")
+        if not reasons:
+            reasons = ["Good credit history", "Stable monthly income", "Reasonable loan amount"]
+    else:
+        if credit_history == "Poor":
+            reasons.append("Credit history increases lending risk")
+        if total_income > 0 and (loan_amount * 1000 / total_income) >= 5.0:
+            reasons.append("Requested loan amount is high compared to income")
+        if applicant_income < 35000:
+            reasons.append("Monthly income may not sufficiently support repayment")
+        if dependents != "0":
+            reasons.append("Financial obligations increase repayment risk")
+        if self_employed == "yes":
+            reasons.append("Employment profile requires additional verification")
+        if not reasons:
+            default_reasons = []
+            if credit_history == "Poor":
+                default_reasons.append("Credit history increases lending risk")
+            if applicant_income < 35000:
+                default_reasons.append("Monthly income may not sufficiently support repayment")
+            if not default_reasons:
+                default_reasons.append("Applicant profile metrics deviate from standard model criteria")
+            reasons = default_reasons
+
+    return reasons
+
+
+def _build_suggestions(prediction_value: int) -> list[str]:
     if prediction_value == 1:
         return [
-            "Good credit history",
-            "Stable income",
-            "Appropriate loan amount",
-            "Positive financial profile",
+            "Maintain good repayment behaviour.",
+            "Submit all required documents.",
+            "Continue maintaining your credit history.",
         ]
-
-    return [
-        "Improve credit history",
-        "Reduce requested loan amount",
-        "Increase income",
-        "Apply with a co-applicant",
-    ]
-
-
-def _build_recommendations() -> list[str]:
-    return [
-        "Maintain good repayment history.",
-        "Keep loan amount reasonable.",
-        "Avoid unnecessary debt.",
-        "Maintain stable income.",
-    ]
+    else:
+        return [
+            "Improve your credit history.",
+            "Increase monthly income.",
+            "Reduce requested loan amount.",
+            "Apply with a co-applicant.",
+            "Verify application details before reapplying.",
+        ]
 
 
 def _generate_result_pdf(
@@ -145,6 +212,7 @@ def _generate_result_pdf(
     prediction_value: int,
     submitted_values: dict[str, str],
     prediction_time: datetime,
+    reference_number: str,
 ) -> bytes:
     buffer = BytesIO()
     document = SimpleDocTemplate(
@@ -164,14 +232,14 @@ def _generate_result_pdf(
     styles.add(ParagraphStyle(name="BodyTextMuted", parent=styles["BodyText"], fontName="Helvetica", fontSize=8.6, leading=12, textColor=colors.HexColor("#64748b")))
 
     story: list[Any] = []
-    story.append(Paragraph("Smart Lender", styles["ReportTitle"]))
+    story.append(Paragraph("Smart Lender Decision Report", styles["ReportTitle"]))
     story.append(Paragraph("AI Powered Loan Approval System", styles["BodyTextMuted"]))
     story.append(Spacer(1, 8))
-    story.append(Paragraph(f"<b>Prediction Result:</b> {prediction_label}", styles["BodyTextSmall"]))
-    story.append(Paragraph(f"<b>Prediction Date &amp; Time:</b> {prediction_time.strftime('%d %b %Y, %I:%M %p')}", styles["BodyTextSmall"]))
+    story.append(Paragraph(f"<b>Reference Number:</b> {reference_number}", styles["BodyTextSmall"]))
+    story.append(Paragraph(f"<b>Generation Date &amp; Time:</b> {prediction_time.strftime('%d %b %Y, %I:%M %p')}", styles["BodyTextSmall"]))
     story.append(Spacer(1, 10))
 
-    col1_width = 65 * mm
+    col1_width = 80 * mm
     col2_width = available_width - col1_width
 
     def _table_from_items(title: str, items: list[tuple[str, str]]) -> None:
@@ -199,7 +267,7 @@ def _generate_result_pdf(
         story.append(Spacer(1, 10))
 
     _table_from_items(
-        "Applicant Details",
+        "Applicant Information",
         [
             ("Applicant Name", submitted_values.get("Applicant Name", "")),
             ("Email Address", submitted_values.get("Email Address", "")),
@@ -215,34 +283,76 @@ def _generate_result_pdf(
     )
 
     _table_from_items(
-        "Financial Details",
+        "Financial Information",
         [
-            ("Applicant Income", submitted_values.get("Applicant Income", "")),
-            ("Coapplicant Income", submitted_values.get("Coapplicant Income", "")),
-            ("Loan Amount", submitted_values.get("Loan Amount", "")),
-            ("Loan Term", submitted_values.get("Loan Term", "")),
-            ("Credit History", submitted_values.get("Credit History", "")),
+            ("Applicant Monthly Income", _format_currency(submitted_values.get("Applicant Income", ""))),
+            ("Co-applicant Monthly Income", _format_currency(submitted_values.get("Coapplicant Income", ""))),
+            ("Loan Amount", _format_loan_amount_val(submitted_values.get("Loan Amount", ""))),
+            ("Loan Term", f"{submitted_values.get('Loan Term', '')} Months" if submitted_values.get('Loan Term') else "-"),
+            ("Credit History", "Good Credit History (Paid previous loans on time)" if submitted_values.get("Credit History") == "Good" or submitted_values.get("Credit History") == "1" else "Poor Credit History (Previous repayment issues)"),
         ],
     )
 
+    status_color = "#22c55e" if prediction_value == 1 else "#ef4444"
+    status_label = "Approved" if prediction_value == 1 else "Needs Review"
     _table_from_items(
         "Prediction Summary",
         [
-            ("Prediction", prediction_label),
-            ("Application Status", "Approved" if prediction_value == 1 else "Needs Review"),
+            ("Prediction", f"<b><font color='{status_color}'>{prediction_label}</font></b>"),
+            ("Application Status", f"<b><font color='{status_color}'>{status_label}</font></b>"),
+            ("Reference Number", reference_number),
             ("Prediction Time", prediction_time.strftime('%d %b %Y, %I:%M %p')),
         ],
     )
 
-    story.append(Paragraph("General Guidance", styles["SectionHeading"]))
-    guidance_items = _build_guidance(prediction_value)
-    guidance_paragraphs = "<br/>".join([f"• {item}" for item in guidance_items])
-    story.append(Paragraph(guidance_paragraphs, styles["BodyTextSmall"]))
+    # === PAGE BREAK ===
+    story.append(PageBreak())
+
+    story.append(Paragraph("Explanation &amp; Guidance", styles["ReportTitle"]))
     story.append(Spacer(1, 8))
-    story.append(Paragraph("The above guidance is based on common lending practices and is not generated directly by the Machine Learning model.", styles["BodyTextMuted"]))
+
+    story.append(Paragraph("Why this result?", styles["SectionHeading"]))
+    reasons_list = _build_reasons(submitted_values, prediction_value)
+    prefix_check = "<font color='#22c55e'>&#10004;</font>" if prediction_value == 1 else "<font color='#ef4444'>&#10004;</font>"
+    reasons_html = "<br/>".join([f"{prefix_check} {r}" for r in reasons_list])
+    story.append(Paragraph(reasons_html, styles["BodyTextSmall"]))
+    story.append(Spacer(1, 10))
+
+    story.append(Paragraph("Suggestions", styles["SectionHeading"]))
+    suggestions_list = _build_suggestions(prediction_value)
+    suggestions_html = "<br/>".join([f"• {s}" for s in suggestions_list])
+    story.append(Paragraph(suggestions_html, styles["BodyTextSmall"]))
+    story.append(Spacer(1, 14))
+
+    story.append(Paragraph("Model Information", styles["SectionHeading"]))
+    model_rows = [
+        [Paragraph("<b>Model Used</b>", styles["BodyTextSmall"]), Paragraph("XGBoost", styles["BodyTextSmall"])],
+        [Paragraph("<b>Training Accuracy</b>", styles["BodyTextSmall"]), Paragraph("98.8%", styles["BodyTextSmall"])],
+        [Paragraph("<b>Testing Accuracy</b>", styles["BodyTextSmall"]), Paragraph("75.6%", styles["BodyTextSmall"])],
+    ]
+    model_table = Table(model_rows, colWidths=[65 * mm, available_width - 65 * mm])
+    model_table.setStyle(TableStyle([
+        ("GRID", (0, 0), (-1, -1), 0.35, colors.HexColor("#cbd5e1")),
+        ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#f8fafc")),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("TOPPADDING", (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+        ("LEFTPADDING", (0, 0), (-1, -1), 6),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+    ]))
+    story.append(model_table)
+    story.append(Spacer(1, 6))
+    story.append(Paragraph("The above accuracy values represent the performance of the trained model during evaluation.", styles["BodyTextMuted"]))
     story.append(Spacer(1, 12))
-    story.append(Paragraph("Generated by Smart Lender", styles["BodyTextMuted"]))
-    story.append(Paragraph(f"Downloaded on: {prediction_time.strftime('%d %b %Y, %I:%M %p')}", styles["BodyTextMuted"]))
+
+    story.append(Paragraph("Disclaimer", styles["SectionHeading"]))
+    disclaimer_text = (
+        "This prediction is generated using a trained Machine Learning model. "
+        "The reasons and suggestions displayed are general lending guidelines generated from the submitted application details. "
+        "They are not the exact internal reasoning used by the Machine Learning model. "
+        "Final loan approval always depends on the financial institution."
+    )
+    story.append(Paragraph(disclaimer_text, styles["BodyTextMuted"]))
 
     def _draw_header_footer(canvas, _doc):
         canvas.saveState()
@@ -255,8 +365,8 @@ def _generate_result_pdf(
         canvas.drawRightString(A4[0] - 18 * mm, A4[1] - 16 * mm, "AI Powered Loan Approval System")
         canvas.setFillColor(colors.HexColor("#64748b"))
         canvas.setFont("Helvetica", 8)
-        canvas.drawString(18 * mm, 10 * mm, "Generated by Smart Lender")
-        canvas.drawRightString(A4[0] - 18 * mm, 10 * mm, f"Downloaded on: {prediction_time.strftime('%d %b %Y, %I:%M %p')}")
+        canvas.drawString(18 * mm, 10 * mm, f"Ref: {reference_number} | Saved on: {prediction_time.strftime('%d %b %Y, %I:%M %p')}")
+        canvas.drawRightString(A4[0] - 18 * mm, 10 * mm, f"Page {canvas.getPageNumber()}")
         canvas.restoreState()
 
     document.build(story, onFirstPage=_draw_header_footer, onLaterPages=_draw_header_footer)
@@ -291,11 +401,13 @@ def predict_loan() -> str:
         result = predictor.predict(feature_mapping)
         submitted_values = _build_submission_summary(request.form)
         prediction_time = datetime.now()
+        reference_number = f"SL-2026-{random.randint(100000, 999999)}"
         session["smart_lender_report"] = {
             "prediction": int(result["prediction"]),
             "result": result["result"],
             "submitted_values": submitted_values,
             "prediction_time": prediction_time.isoformat(),
+            "reference_number": reference_number,
         }
         return render_template(
             "result.html",
@@ -303,8 +415,9 @@ def predict_loan() -> str:
             result=result["result"],
             submitted_values=submitted_values,
             prediction_time=prediction_time,
-            guidance=_build_guidance(int(result["prediction"])),
-            recommendations=_build_recommendations(),
+            reference_number=reference_number,
+            reasons=_build_reasons(submitted_values, int(result["prediction"])),
+            suggestions=_build_suggestions(int(result["prediction"])),
         )
     except ValueError as exc:
         return render_template("error.html", error_message=str(exc)), 400
@@ -324,11 +437,13 @@ def download_report() -> Response:
         return render_template("error.html", error_message="No report is available for download."), 404
 
     prediction_time = datetime.fromisoformat(report_data["prediction_time"])
+    reference_number = report_data.get("reference_number") or f"SL-2026-{random.randint(100000, 999999)}"
     pdf_bytes = _generate_result_pdf(
         prediction_label=report_data["result"],
         prediction_value=int(report_data["prediction"]),
         submitted_values=report_data.get("submitted_values", {}),
         prediction_time=prediction_time,
+        reference_number=reference_number,
     )
     filename = f"smart-lender-report-{prediction_time.strftime('%Y%m%d-%H%M%S')}.pdf"
     return Response(

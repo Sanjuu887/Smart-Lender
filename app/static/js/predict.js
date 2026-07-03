@@ -91,12 +91,12 @@
     if (!field) return true;
     const phoneValue = value(field);
     if (!phoneValue) {
-      field.classList.remove('is-valid', 'is-invalid');
-      return true;
+      markInvalid(field, 'Please enter a valid 10-digit phone number.');
+      return false;
     }
-    const isValid = /^[0-9+\-()\s]{7,15}$/.test(phoneValue);
+    const isValid = /^\d{10}$/.test(phoneValue);
     if (!isValid) {
-      markInvalid(field, 'Please enter a valid phone number.');
+      markInvalid(field, 'Please enter a valid 10-digit phone number. E.g. 9876543210');
       return false;
     }
     markValid(field);
@@ -107,13 +107,13 @@
     if (!field) return true;
     const ageValue = value(field);
     if (!ageValue) {
-      field.classList.remove('is-valid', 'is-invalid');
-      return true;
+      markInvalid(field, 'Please enter a valid age between 18 and 70.');
+      return false;
     }
     const ageNumber = Number(ageValue);
-    const isValid = Number.isFinite(ageNumber) && ageNumber >= 18 && ageNumber <= 100;
+    const isValid = Number.isInteger(ageNumber) && ageNumber >= 18 && ageNumber <= 70;
     if (!isValid) {
-      markInvalid(field, 'Please enter a valid age between 18 and 100.');
+      markInvalid(field, 'Please enter a valid age between 18 and 70.');
       return false;
     }
     markValid(field);
@@ -129,7 +129,7 @@
     }
     const parsedValue = Number(numberValue);
     const min = options.min ?? 0;
-    const isValid = Number.isFinite(parsedValue) && parsedValue >= min;
+    const isValid = Number.isFinite(parsedValue) && (options.strict ? parsedValue > min : parsedValue >= min);
     if (!isValid) {
       markInvalid(field, options.invalidMessage);
       return false;
@@ -184,35 +184,41 @@
     fields.Married?.addEventListener('change', () => validateSelect(fields.Married, 'Please select the marital status.'));
     fields.ApplicantIncome?.addEventListener('input', () => validateNumber(fields.ApplicantIncome, {
       requiredMessage: 'Applicant income is required.',
-      invalidMessage: 'Income cannot be negative.',
+      invalidMessage: 'Applicant income must be positive and greater than zero.',
       min: 0,
+      strict: true,
     }));
     fields.ApplicantIncome?.addEventListener('blur', () => validateNumber(fields.ApplicantIncome, {
       requiredMessage: 'Applicant income is required.',
-      invalidMessage: 'Income cannot be negative.',
+      invalidMessage: 'Applicant income must be positive and greater than zero.',
       min: 0,
+      strict: true,
     }));
 
     fields.CoapplicantIncome?.addEventListener('input', () => validateNumber(fields.CoapplicantIncome, {
       requiredMessage: 'Coapplicant income is required.',
-      invalidMessage: 'Income cannot be negative.',
+      invalidMessage: 'Co-applicant income must be 0 or greater.',
       min: 0,
+      strict: false,
     }));
     fields.CoapplicantIncome?.addEventListener('blur', () => validateNumber(fields.CoapplicantIncome, {
       requiredMessage: 'Coapplicant income is required.',
-      invalidMessage: 'Income cannot be negative.',
+      invalidMessage: 'Co-applicant income must be 0 or greater.',
       min: 0,
+      strict: false,
     }));
 
     fields.LoanAmount?.addEventListener('input', () => validateNumber(fields.LoanAmount, {
       requiredMessage: 'Loan amount is required.',
-      invalidMessage: 'Loan amount must be greater than zero.',
-      min: 0.01,
+      invalidMessage: 'Loan amount must be positive and greater than zero.',
+      min: 0,
+      strict: true,
     }));
     fields.LoanAmount?.addEventListener('blur', () => validateNumber(fields.LoanAmount, {
       requiredMessage: 'Loan amount is required.',
-      invalidMessage: 'Loan amount must be greater than zero.',
-      min: 0.01,
+      invalidMessage: 'Loan amount must be positive and greater than zero.',
+      min: 0,
+      strict: true,
     }));
 
     fields.Loan_Amount_Term?.addEventListener('change', () => validateSelect(fields.Loan_Amount_Term, 'Loan term is required.'));
@@ -260,6 +266,14 @@
     overlay?.classList.add('d-none');
   };
 
+  // Initialize tooltips
+  if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+    const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach((tooltipTriggerEl) => {
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  }
+
   bindLiveValidation();
   clearLoadingState();
 
@@ -269,25 +283,28 @@
     const messages = [];
     if (!validateText(fields.ApplicantName, 'Please enter your full name.')) messages.push('Please enter your full name.');
     if (!validateEmail(fields.EmailAddress)) messages.push('Please enter a valid email.');
-    if (!validatePhone(fields.PhoneNumber)) messages.push('Please enter a valid phone number.');
-    if (!validateAge(fields.Age)) messages.push('Please enter a valid age between 18 and 100.');
+    if (!validatePhone(fields.PhoneNumber)) messages.push('Please enter a valid 10-digit phone number.');
+    if (!validateAge(fields.Age)) messages.push('Please enter a valid age between 18 and 70.');
     if (!validateSelect(fields.Gender, 'Please select a gender.')) messages.push('Please select a gender.');
     if (!validateSelect(fields.Married, 'Please select the marital status.')) messages.push('Please select the marital status.');
     if (!validateNumber(fields.ApplicantIncome, {
       requiredMessage: 'Applicant income is required.',
-      invalidMessage: 'Income cannot be negative.',
+      invalidMessage: 'Applicant income must be positive and greater than zero.',
       min: 0,
-    })) messages.push('Income cannot be negative.');
+      strict: true,
+    })) messages.push('Applicant income must be positive and greater than zero.');
     if (!validateNumber(fields.CoapplicantIncome, {
       requiredMessage: 'Coapplicant income is required.',
-      invalidMessage: 'Income cannot be negative.',
+      invalidMessage: 'Co-applicant income must be 0 or greater.',
       min: 0,
-    })) messages.push('Income cannot be negative.');
+      strict: false,
+    })) messages.push('Coapplicant income must be 0 or greater.');
     if (!validateNumber(fields.LoanAmount, {
       requiredMessage: 'Loan amount is required.',
-      invalidMessage: 'Loan amount must be greater than zero.',
-      min: 0.01,
-    })) messages.push('Loan amount must be greater than zero.');
+      invalidMessage: 'Loan amount must be positive and greater than zero.',
+      min: 0,
+      strict: true,
+    })) messages.push('Loan amount must be positive and greater than zero.');
     if (!validateSelect(fields.Loan_Amount_Term, 'Loan term is required.')) messages.push('Loan term is required.');
     if (!validateSelect(fields.Education, 'Please select education.')) messages.push('Please select education.');
     if (!validateSelect(fields.Self_Employed, 'Please select employment status.')) messages.push('Please select employment status.');
@@ -331,4 +348,8 @@
   window.addEventListener('pageshow', () => {
     clearLoadingState();
   });
+
+  // Initialize Bootstrap Tooltips
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 })();

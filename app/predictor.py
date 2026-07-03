@@ -88,10 +88,33 @@ class SmartLenderPredictor:
 	def predict(self, input_data: dict[str, Any]) -> dict[str, Any]:
 		"""Return the predicted loan approval result."""
 
+		print("=========================================================")
+		print("DEBUG MODE - PREDICTION PIPELINE")
+		print("=========================================================")
+		print("Raw user inputs:")
+		for k, v in input_data.items():
+			print(f"  {k} = {v}")
+
+		print("\nEncoded values (before scaling):")
+		for feature in self.feature_names:
+			print(f"  {feature} = {input_data[feature]}")
+
 		processed_input = self.preprocess_input(input_data)
+
+		print("\nScaled values / Final feature vector (in order):")
+		for feature in self.feature_names:
+			scaled_val = processed_input.loc[0, feature]
+			print(f"  {feature} = {scaled_val:.6f}")
 
 		try:
 			raw_prediction = self.model.predict(processed_input)[0]
+			if hasattr(self.model, "predict_proba"):
+				probs = self.model.predict_proba(processed_input)[0]
+				prob_approved = probs[1]
+				prob_rejected = probs[0]
+			else:
+				prob_approved = 1.0 if raw_prediction == 1 else 0.0
+				prob_rejected = 1.0 if raw_prediction == 0 else 0.0
 		except Exception as exc:
 			raise RuntimeError("Model prediction failed.") from exc
 
@@ -102,6 +125,12 @@ class SmartLenderPredictor:
 
 		if prediction_value not in (0, 1):
 			raise RuntimeError("Model prediction must be either 0 or 1.")
+
+		print(f"\nModel prediction: {prediction_value} ({'Approved' if prediction_value == 1 else 'Not Approved'})")
+		print(f"Prediction probability:")
+		print(f"  Probability Approved: {prob_approved:.4f}")
+		print(f"  Probability Not Approved: {prob_rejected:.4f}")
+		print("=========================================================\n")
 
 		result = "Loan Approved" if prediction_value == 1 else "Loan Not Approved"
 		return {

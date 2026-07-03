@@ -14,6 +14,28 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body class="smart-body">
+    <!-- Responsive Sticky Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark home-navbar sticky-top">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-3 fw-bold" href="{{ url_for('index') }}">
+          <span class="brand-badge"><i class="fa-solid fa-building-columns"></i></span>
+          <span>Smart Lender</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav" aria-controls="topNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="topNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+            <li class="nav-item"><a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">Home</a></li>
+            <li class="nav-item"><a class="nav-link {% if request.endpoint == 'predict_form' or request.endpoint == 'predict_loan' %}active{% endif %}" href="{{ url_for('predict_form') }}">Predict Loan</a></li>
+            <li class="nav-item"><a class="nav-link {% if request.endpoint == 'about_page' %}active{% endif %}" href="{{ url_for('about_page') }}">About</a></li>
+            <li class="nav-item"><a class="nav-link {% if request.endpoint == 'contact_page' %}active{% endif %}" href="{{ url_for('contact_page') }}">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-primary nav-cta" href="{{ url_for('predict_form') }}"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Predict Loan</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
     <div class="app-shell">
         <aside class="sidebar-panel">
             <div class="sidebar-brand">
@@ -60,16 +82,21 @@
                         <p class="footer-value mb-0">Smart Lender</p>
                     </div>
                     <div>
-                        <p class="footer-label mb-1">Author</p>
-                        <p class="footer-value mb-0">Sanju</p>
+                        <p class="footer-label mb-1">Developer</p>
+                        <p class="footer-value mb-0">Sanjay Dharmireddi</p>
+                    </div>
+                    <div>
+                        <p class="footer-label mb-1">Connect</p>
+                        <a class="footer-link me-3" href="https://www.linkedin.com/in/sanjay-dharmireddi-33b648348/" target="_blank" rel="noreferrer"><i class="fa-brands fa-linkedin me-1"></i>LinkedIn</a>
+                        <a class="footer-link" href="mailto:sanjaydharmireddi3@gmail.com"><i class="fa-solid fa-envelope me-1"></i>Email</a>
                     </div>
                     <div>
                         <p class="footer-label mb-1">GitHub</p>
-                        <a class="footer-link" href="https://github.com/Sanjuu887/Smart-Lender.git" target="_blank" rel="noreferrer">Repository</a>
+                        <a class="footer-link" href="https://github.com/Sanjuu887/Smart-Lender" target="_blank" rel="noreferrer"><i class="fa-brands fa-github me-1"></i>Repository</a>
                     </div>
                 </div>
                 <div class="footer-bottom">
-                    <small>© 2026 Smart Lender | Built with Flask &amp; Scikit-Learn</small>
+                    <small>© 2026 Smart Lender | Built with Flask &amp; XGBoost</small>
                 </div>
             </footer>
         </div>
