@@ -15,7 +15,7 @@ Smart Lender is a web-based loan approval prediction assistant. It evaluates whe
 - **Responsive Layout:** A clean, optimized CSS interface designed to fit desktop, tablet, and mobile screens.
 
 
-- <img width="912" height="425" alt="Screenshot 2026-07-13 143409" src="https://github.com/user-attachments/assets/82d3ac5f-e380-4704-87d0-0860cd9da98c" />
+<img width="912" height="425" alt="Screenshot 2026-07-13 143409" src="https://github.com/user-attachments/assets/82d3ac5f-e380-4704-87d0-0860cd9da98c" />
 
 
 ## Machine Learning Model
