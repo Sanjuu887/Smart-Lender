@@ -6,6 +6,8 @@ Smart Lender is a web-based loan approval prediction assistant. It evaluates whe
 
  Deployment link : https://smart-lender-ai.onrender.com/
 
+ Demo video : https://drive.google.com/file/d/1RweZg9dsVyLv9SYcFHiKA0pPUAKXfdIa/view?usp=sharing
+
 ## Features
 
 - **Loan Approval Prediction:** Real-time calculation of loan eligibility using a machine learning model.
