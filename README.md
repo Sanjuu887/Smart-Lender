@@ -111,4 +111,4 @@ Then visit `http://127.0.0.1:5000` in your web browser.
 
 - **Email:** sanjaydharmireddi3@gmail.com
 - **LinkedIn:** [Sanjay Dharmireddi on LinkedIn](https://www.linkedin.com/in/sanjay-dharmireddi-33b648348/)
-- **GitHub Repository:** [Smart-Lender GitHub Repo](https://github.com/Sanjuu887/Smart-Lender)
+
