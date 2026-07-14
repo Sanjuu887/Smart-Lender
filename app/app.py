@@ -131,6 +131,23 @@ def _format_loan_amount_val(val) -> str:
         return str(val)
 
 
+def _format_currency_pdf(val) -> str:
+    try:
+        numeric_val = float(val)
+        return f"Rs. {int(numeric_val):,}"
+    except (ValueError, TypeError):
+        return str(val)
+
+
+def _format_loan_amount_val_pdf(val) -> str:
+    try:
+        numeric_val = float(val)
+        val_in_rs = int(numeric_val * 1000)
+        return f"{int(numeric_val) if numeric_val.is_integer() else numeric_val} (Rs. {val_in_rs:,})"
+    except (ValueError, TypeError):
+        return str(val)
+
+
 def _build_reasons(submitted_values: dict[str, str], prediction_value: int) -> list[str]:
     try:
         applicant_income = float(submitted_values.get("Applicant Income", 0) or 0)
@@ -285,9 +302,9 @@ def _generate_result_pdf(
     _table_from_items(
         "Financial Information",
         [
-            ("Applicant Monthly Income", _format_currency(submitted_values.get("Applicant Income", ""))),
-            ("Co-applicant Monthly Income", _format_currency(submitted_values.get("Coapplicant Income", ""))),
-            ("Loan Amount", _format_loan_amount_val(submitted_values.get("Loan Amount", ""))),
+            ("Applicant Monthly Income", _format_currency_pdf(submitted_values.get("Applicant Income", ""))),
+            ("Co-applicant Monthly Income", _format_currency_pdf(submitted_values.get("Coapplicant Income", ""))),
+            ("Loan Amount", _format_loan_amount_val_pdf(submitted_values.get("Loan Amount", ""))),
             ("Loan Term", f"{submitted_values.get('Loan Term', '')} Months" if submitted_values.get('Loan Term') else "-"),
             ("Credit History", "Good Credit History (Paid previous loans on time)" if submitted_values.get("Credit History") == "Good" or submitted_values.get("Credit History") == "1" else "Poor Credit History (Previous repayment issues)"),
         ],
