@@ -4,6 +4,8 @@
 
 Smart Lender is a web-based loan approval prediction assistant. It evaluates whether a loan application is likely to be approved or rejected based on criteria like applicant income, credit history, loan amount, and marital status. The system is designed to provide quick first-level screening assistance in a professional, responsive bank-style interface.
 
+ Deployment link : https://smart-lender-ai.onrender.com/
+
 ## Features
 
 - **Loan Approval Prediction:** Real-time calculation of loan eligibility using a machine learning model.
@@ -11,6 +13,10 @@ Smart Lender is a web-based loan approval prediction assistant. It evaluates whe
 - **Rule-based Explanation:** Displays localized primary reasons explaining why the check approved or needs review.
 - **Downloadable PDF Report:** Generates a professional 2-page summary PDF showing the inputs, result, and suggestions.
 - **Responsive Layout:** A clean, optimized CSS interface designed to fit desktop, tablet, and mobile screens.
+
+
+- <img width="912" height="425" alt="Screenshot 2026-07-13 143409" src="https://github.com/user-attachments/assets/82d3ac5f-e380-4704-87d0-0860cd9da98c" />
+
 
 ## Machine Learning Model
 
@@ -82,13 +88,11 @@ python -m app.app
 ```
 Then visit `http://127.0.0.1:5000` in your web browser.
 
-## Screenshots
 
-*(Placeholder section - screenshots of components will be added post-deployment)*
+<img width="1918" height="1026" alt="Screenshot 2026-07-13 162450" src="https://github.com/user-attachments/assets/0e8dab81-bfdd-44e7-9340-e706f5b56d5c" />
 
-- **Home Dashboard:** Home layout for starting prediction runs.
-- **Predict Form:** Validated inputs showing user data capturing.
-- **Predict Result:** Dynamic success green card or warning warning card.
+
+
 
 ## Technologies Used
 
